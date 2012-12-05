@@ -54,30 +54,21 @@ EX_POSTFIX_ADDRESS = re.compile(
                                 'openended':    OPENENDED_SEARCH_ADDRESS}
                         )
 
+ex_write_cmd_data = ex_cmd_data(
+                                command='ex_write_file',
+                                invocations=(
+                                    re.compile(r'^\s*$'),
+                                    re.compile(r'(?P<plusplus_args> *\+\+[a-zA-Z0-9_]+)* *(?P<operator>>>) *(?P<target_redirect>.+)?'),
+                                    # fixme: raises an error when it shouldn't
+                                    re.compile(r'(?P<plusplus_args> *\+\+[a-zA-Z0-9_]+)* *!(?P<subcmd>.+)'),
+                                    re.compile(r'(?P<plusplus_args> *\+\+[a-zA-Z0-9_]+)* *(?P<file_name>.+)?'),
+                                ),
+                                error_on=()
+                                )
 
 EX_COMMANDS = {
-    ('write', 'w'): ex_cmd_data(
-                                command='ex_write_file',
-                                invocations=(
-                                    re.compile(r'^\s*$'),
-                                    re.compile(r'(?P<plusplus_args> *\+\+[a-zA-Z0-9_]+)* *(?P<operator>>>) *(?P<target_redirect>.+)?'),
-                                    # fixme: raises an error when it shouldn't
-                                    re.compile(r'(?P<plusplus_args> *\+\+[a-zA-Z0-9_]+)* *!(?P<subcmd>.+)'),
-                                    re.compile(r'(?P<plusplus_args> *\+\+[a-zA-Z0-9_]+)* *(?P<file_name>.+)?'),
-                                ),
-                                error_on=()
-                                ),
-    ('Write', 'W'): ex_cmd_data(
-                                command='ex_write_file',
-                                invocations=(
-                                    re.compile(r'^\s*$'),
-                                    re.compile(r'(?P<plusplus_args> *\+\+[a-zA-Z0-9_]+)* *(?P<operator>>>) *(?P<target_redirect>.+)?'),
-                                    # fixme: raises an error when it shouldn't
-                                    re.compile(r'(?P<plusplus_args> *\+\+[a-zA-Z0-9_]+)* *!(?P<subcmd>.+)'),
-                                    re.compile(r'(?P<plusplus_args> *\+\+[a-zA-Z0-9_]+)* *(?P<file_name>.+)?'),
-                                ),
-                                error_on=()
-                                ),
+    ('write', 'w'): ex_write_cmd_data,
+    ('Write', 'W'): ex_write_cmd_data,
     ('wall', 'wa'): ex_cmd_data(
                                 command='ex_write_all',
                                 invocations=(),
